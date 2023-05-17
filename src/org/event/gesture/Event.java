@@ -50,23 +50,31 @@ public class Event {
 
     public void prenota(int postiPrenotati) throws Exception {
        
-    	
-    	if (postiPrenotati >= postiTotali) {
-            throw new Exception("Non ci sono posti disponibili per l'evento.");
-        }
-    	
-        this.postiPrenotati= postiPrenotati;
-        
-        
+    	 if (postiPrenotati <= 0) {
+    	        throw new Exception("Il numero dei posti prenotati deve essere maggiore di zero.");
+    	    }
+
+    	    int postiDisponibili = postiTotali - this.postiPrenotati;
+    	    if (postiPrenotati > postiDisponibili) {
+    	        throw new Exception("Non ci sono posti disponibili per l'evento.");
+    	    }
+
+    	    this.postiPrenotati += postiPrenotati;
     }
 
     public void disdici(int postiPrenotati) throws Exception {
-
+    	
         if (postiPrenotati <= 0) {
             throw new Exception("Non ci sono prenotazioni per l'evento.");
         }
+           
 
-        this.postiPrenotati = this.postiPrenotati - postiPrenotati;
+        int postiRimasti = this.postiPrenotati - postiPrenotati;
+        if (postiRimasti < 0) {
+            throw new Exception("Il numero di posti da disdire è superiore al numero di posti prenotati.");
+        }
+
+        this.postiPrenotati = postiRimasti;
     }
 
     @Override
